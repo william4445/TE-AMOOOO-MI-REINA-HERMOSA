@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TE AMOOOOOOOOO MUCHO MI REINA HERMOSA </title>
+    <style>
+        /* Fondo estilo atardecer mágico */
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, #FF9A8B 0%, #FF6A88 25%, #FF99AC 45%, #ADEEAA 65%, #7CBC4A 65%, #5D923C 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* --- PANTALLA DE INICIO (BOTÓN) --- */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #intro-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .btn-love {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 4vmin;
+            text-align: center;
+            padding: 4vmin 6vmin;
+            background-color: #E74C3C;
+            color: white;
+            border: 0.8vmin solid #922b21;
+            cursor: pointer;
+            box-shadow: 1vmin 1vmin 0 rgba(0,0,0,0.6);
+            text-shadow: 0.3vmin 0.3vmin 0 #000;
+            transition: transform 0.1s;
+            max-width: 80vw;
+            line-height: 1.3;
+            z-index: 110;
+        }
+
+        .btn-love:active {
+            transform: translate(0.5vmin, 0.5vmin);
+            box-shadow: 0.5vmin 0.5vmin 0 rgba(0,0,0,0.6);
+        }
+
+        .heart {
+            position: absolute;
+            color: #E74C3C;
+            font-size: 5vmin;
+            opacity: 0;
+            animation: floatHeart 4s infinite linear;
+            text-shadow: 0 0 1vmin rgba(231, 76, 60, 0.8);
+            user-select: none;
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-20vh) scale(1.5) rotate(20deg); opacity: 0; }
+        }
+
+        /* --- FONDO DECORATIVO --- */
+        .sun {
+            position: absolute;
+            top: 8vmin;
+            right: 10vmin;
+            width: 12vmin;
+            height: 12vmin;
+            background-color: #FFEB3B;
+            box-shadow: 0 0 0 2vmin rgba(255, 235, 59, 0.4), 0 0 0 4vmin rgba(255, 235, 59, 0.2);
+            image-rendering: pixelated;
+            animation: sunPulse 3s ease-in-out infinite;
+            z-index: 0;
+        }
+        @keyframes sunPulse {
+            0%, 100% { box-shadow: 0 0 0 2vmin rgba(255, 235, 59, 0.4), 0 0 0 4vmin rgba(255, 235, 59, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 0 3vmin rgba(255, 235, 59, 0.5), 0 0 0 6vmin rgba(255, 235, 59, 0.3); transform: scale(1.05); }
+        }
+
+        .cloud {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            width: 20vmin;
+            height: 4vmin;
+            image-rendering: pixelated;
+            box-shadow: inset 2px 2px 0 rgba(255,255,255,1), inset -2px -2px 0 rgba(200,200,200,0.5);
+            animation: drift 30s linear infinite;
+            z-index: 0;
+        }
+        .cloud::after {
+            content: '';
+            position: absolute;
+            top: -4vmin;
+            left: 4vmin;
+            width: 8vmin;
+            height: 4vmin;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .cloud-1 { top: 15vmin; left: -20vmin; animation-duration: 35s; }
+        .cloud-2 { top: 25vmin; left: -40vmin; animation-duration: 50s; transform: scale(1.5); }
+        @keyframes drift {
+            from { transform: translateX(0) scale(var(--s, 1)); }
+            to { transform: translateX(120vw) scale(var(--s, 1)); }
+        }
+
+        /* --- JARDÍN Y FLORES --- */
+        .garden {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 4vmin;
+            width: 100%;
+            padding-bottom: 8vmin;
+            box-sizing: border-box;
+            z-index: 2;
+            position: relative;
+        }
+
+        .flower-container {
+            position: relative;
+            width: 25vmin; 
+            height: 45vmin;
+        }
+
+        .block {
+            position: absolute;
+            width: 6vmin;
+            height: 6vmin;
+            image-rendering: pixelated;
+            box-shadow: 
+                inset 2px 2px 0 rgba(255, 255, 255, 0.4), 
+                inset -2px -2px 0 rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .yellow { background-color: #F1C40F; }
+        .orange { background-color: #E67E22; box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.5), inset -2px -2px 0 rgba(0, 0, 0, 0.4), 0 0 10px rgba(231, 126, 34, 0.6); }
+        .green { background-color: #27AE60; }
+        .dark-green { background-color: #1E8449; }
+
+        .stem-1 { bottom: 0; left: 9.5vmin; animation: grow 0.2s steps(3) calc(0.2s + var(--d)) forwards; }
+        .stem-2 { bottom: 6vmin; left: 9.5vmin; animation: grow 0.2s steps(3) calc(0.5s + var(--d)) forwards; }
+        .stem-3 { bottom: 12vmin; left: 9.5vmin; animation: grow 0.2s steps(3) calc(0.8s + var(--d)) forwards; }
+        .stem-4 { bottom: 18vmin; left: 9.5vmin; animation: grow 0.2s steps(3) calc(1.1s + var(--d)) forwards; }
+
+        .leaf-left { bottom: 9vmin; left: 3.5vmin; animation: grow 0.2s steps(3) calc(0.7s + var(--d)) forwards, leafSway 4s steps(6) infinite calc(3s + var(--d)); transform-origin: right center; }
+        .leaf-right { bottom: 15vmin; left: 15.5vmin; animation: grow 0.2s steps(3) calc(1.0s + var(--d)) forwards, leafSway 4s steps(6) infinite calc(3.5s + var(--d)); transform-origin: left center; }
+
+        @keyframes leafSway {
+            0%, 100% { rotate: 0deg; }
+            50% { rotate: 10deg; }
+        }
+
+        .flower-head {
+            position: absolute;
+            bottom: 24vmin;
+            left: 3.5vmin;
+            width: 18vmin;
+            height: 18vmin;
+            transform-origin: bottom center;
+            animation: sway 3s steps(6) infinite calc(2.5s + var(--d)), breathe 4s ease-in-out infinite calc(3s + var(--d)); 
+        }
+
+        .petal-top { top: 0; left: 6vmin; animation: grow 0.2s steps(3) calc(1.3s + var(--d)) forwards; }
+        .petal-bottom { bottom: 0; left: 6vmin; animation: grow 0.2s steps(3) calc(1.5s + var(--d)) forwards; }
+        .petal-left { top: 6vmin; left: 0; animation: grow 0.2s steps(3) calc(1.4s + var(--d)) forwards; }
+        .petal-right { top: 6vmin; right: 0; animation: grow 0.2s steps(3) calc(1.4s + var(--d)) forwards; }
+        
+        .center { 
+            top: 6vmin; 
+            left: 6vmin; 
+            animation: grow 0.2s steps(3) calc(1.6s + var(--d)) forwards; 
+            z-index: 2;
+        }
+
+        @keyframes grow {
+            0% { opacity: 0; transform: scale(0); }
+            60% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes sway {
+            0% { rotate: 0deg; }
+            25% { rotate: 4deg; }
+            50% { rotate: 0deg; }
+            75% { rotate: -4deg; }
+            100% { rotate: 0deg; }
+        }
+
+        @keyframes breathe {
+            0%, 100% { scale: 1; }
+            50% { scale: 1.05; }
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .pollen {
+            position: absolute;
+            width: 1.5vmin;
+            height: 1.5vmin;
+            background-color: #FFF59D;
+            box-shadow: inset 1px 1px 0 white, inset -1px -1px 0 #FBC02D;
+            opacity: 0;
+            animation: floatUp 6s linear infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-40vmin) translateX(15vmin) scale(0.5); opacity: 0; }
+        }
+
+        /* --- TEXTO FLOTANTE --- */
+        .text-overlay {
+            position: fixed;
+            top: 30%; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90vw;
+            max-width: 600px;
+            text-align: center;
+            z-index: 50;
+            pointer-events: none; 
+        }
+
+        .phrase {
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 5vmin;
+            line-height: 1.4;
+            font-weight: bold;
+            text-shadow: 
+                -1px -1px 0 #000, 1px -1px 0 #000, 
+                -1px 1px 0 #000, 1px 1px 0 #000, 
+                2px 2px 5px rgba(0,0,0,0.4);
+            opacity: 0;
+        }
+
+        .animate {
+            animation: fadeInOut 6s ease-in-out forwards;
+        }
+        .animate-last {
+            animation: fadeInStay 2s ease-out forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15%, 85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        @keyframes fadeInStay {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Música de fondo oculta -->
+    <audio id="bg-music" src="amor.mp3" loop preload="auto"></audio>
+
+    <!-- PANTALLA DE INICIO -->
+    <div id="intro-screen">
+        <button class="btn-love" id="start-btn">PARA MI AMOOOR DE MI VIDA JHANELY TE AMOOOOO ❤️</button>
+    </div>
+
+    <!-- FONDO DECORATIVO -->
+    <div class="sun"></div>
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+
+    <!-- PARTÍCULAS DE POLEN -->
+    <div class="particles" id="particles"></div>
+
+    <!-- LAS 3 FLORES -->
+    <div class="garden" id="garden">
+        <div class="flower-container" style="--d: 0s;">
+            <div class="block green stem-1"></div>
+            <div class="block dark-green stem-2"></div>
+            <div class="block green stem-3"></div>
+            <div class="block dark-green stem-4"></div>
+            <div class="block green leaf-left"></div>
+            <div class="block dark-green leaf-right"></div>
+            <div class="flower-head">
+                <div class="block yellow petal-top"></div>
+                <div class="block yellow petal-bottom"></div>
+                <div class="block yellow petal-left"></div>
+                <div class="block yellow petal-right"></div>
+                <div class="block orange center"></div>
+            </div>
+        </div>
+
+        <div class="flower-container" style="--d: 1.2s;">
+            <div class="block green stem-1"></div>
+            <div class="block dark-green stem-2"></div>
+            <div class="block green stem-3"></div>
+            <div class="block dark-green stem-4"></div>
+            <div class="block green leaf-left"></div>
+            <div class="block dark-green leaf-right"></div>
+            <div class="flower-head">
+                <div class="block yellow petal-top"></div>
+                <div class="block yellow petal-bottom"></div>
+                <div class="block yellow petal-left"></div>
+                <div class="block yellow petal-right"></div>
+                <div class="block orange center"></div>
+            </div>
+        </div>
+
+        <div class="flower-container" style="--d: 2.4s;">
+            <div class="block green stem-1"></div>
+            <div class="block dark-green stem-2"></div>
+            <div class="block green stem-3"></div>
+            <div class="block dark-green stem-4"></div>
+            <div class="block green leaf-left"></div>
+            <div class="block dark-green leaf-right"></div>
+            <div class="flower-head">
+                <div class="block yellow petal-top"></div>
+                <div class="block yellow petal-bottom"></div>
+                <div class="block yellow petal-left"></div>
+                <div class="block yellow petal-right"></div>
+                <div class="block orange center"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEXTO FLOTANTE SIN CUADRO -->
+    <div class="text-overlay">
+        <div id="phrase" class="phrase"></div>
+    </div>
+
+    <script>
+        // 1. Generar corazones en la pantalla de inicio
+        const introScreen = document.getElementById('intro-screen');
+        for(let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 4 + 2) + 'vmin';
+            heart.style.animationDelay = Math.random() * 4 + 's';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            introScreen.appendChild(heart);
+        }
+
+        // 2. Frases del poema (La última se quedará fija)
+        const phrases = [
+            "No soy poeta pero te escribo en mi libreta y te digo en cada letra.",
+            "Te pienso a cada q te escribo , mientras te imagino tus ojos frente los míos bailando al compás de nuestro latido.",
+            "Nuestro amor no es perfecto, pero es único.",
+            "Conozco tus gustos, soy cómplice de tu locura, de tu sonrisa, de esas miradas y palabras, de los gestos que solo tú y yo entendemos.",
+            "Me llena de calma, me abraza con tu sola presencia, como si el mundo se detuviera cada vez que estás cerca.",
+            "Este amor es más hermoso de lo que jamás soñé, porque en él no busco la perfección, sino la verdad que nace en cada risa, en cada suspiro, en los momentos simples que se vuelven eternos contigo.",
+            "Aunque la noche nos encuentre en distintos lugares. hay algo que sigue Uniendonos en silencio.",
+            "El mismo Cielo nos cubre, la misma luna atraviesa la distancia entre tu mundo y el mio.",
+            "Y aunque no Pueda verte se que el cielo te encuentra de la misma forma en que me encuentra a mi.",
+            "Hay noches en que basta levantar la mirada, Para sentirte un poco más cerca de lo que parece.",
+            "Somos dos almas mirando hacia arriba Sabiendo que incluso lejos... Seguimos bajo la misma estrella ❤️",
+            "TE AMOOOOOO MI REINA HERMOSA ❤️" // <-- Frase final agregada
+        ];
+
+        // 3. Lógica del botón principal
+        const startBtn = document.getElementById('start-btn');
+        const garden = document.getElementById('garden');
+        const particlesContainer = document.getElementById('particles');
+        const phraseElement = document.getElementById('phrase');
+        
+        // Elemento de audio de fondo
+        const bgMusic = document.getElementById('bg-music');
+
+        startBtn.addEventListener('click', () => {
+            // 🔊 REPRODUCIR MÚSICA DE FONDO INMEDIATAMENTE
+            bgMusic.volume = 0.5; // 50% de volumen para que sea ambiente
+            bgMusic.play().catch((error) => {
+                console.error("El navegador bloqueó el audio:", error);
+            });
+
+            // Ocultar pantalla de inicio
+            introScreen.classList.add('hidden');
+
+            // Reiniciar animación de flores
+            const newGarden = garden.cloneNode(true);
+            garden.parentNode.replaceChild(newGarden, garden);
+
+            // Generar partículas de polen
+            for(let i = 0; i < 20; i++) {
+                const pollen = document.createElement('div');
+                pollen.classList.add('pollen');
+                pollen.style.left = Math.random() * 100 + 'vw';
+                pollen.style.bottom = Math.random() * 20 + 'vmin';
+                pollen.style.animationDelay = Math.random() * 5 + 's';
+                pollen.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                particlesContainer.appendChild(pollen);
+            }
+
+            // Empezar a mostrar las frases después de 3.5 segundos
+            setTimeout(() => {
+                let phraseIndex = 0;
+
+                function displayPhrase() {
+                    if (phraseIndex >= phrases.length) return;
+
+                    phraseElement.innerText = phrases[phraseIndex];
+                    
+                    phraseElement.classList.remove('animate', 'animate-last');
+                    void phraseElement.offsetWidth; 
+
+                    // Si es la última frase, usar la animación que se queda fija
+                    if (phraseIndex === phrases.length - 1) {
+                        phraseElement.classList.add('animate-last');
+                    } else {
+                        phraseElement.classList.add('animate');
+                    }
+
+                    phraseIndex++;
+
+                    if (phraseIndex < phrases.length) {
+                        setTimeout(displayPhrase, 6000);
+                    }
+                }
+
+                displayPhrase();
+
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
